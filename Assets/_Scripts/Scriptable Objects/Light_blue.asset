@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3ace6f1467174348b9ca77aff381ebe, type: 3}
+  m_Name: Light_blue
+  m_EditorClassIdentifier: 
+  colorName: light_blue
+  checkpointMaterial: {fileID: 2100000, guid: d676abba0d2662d45b77512c0b3e341e, type: 2}
+  unitsMaterial: {fileID: 2100000, guid: 3c8e9a5746c5d41458cd01563020283d, type: 2}
