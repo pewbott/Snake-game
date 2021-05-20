@@ -19,28 +19,31 @@ public class FoodContentContoller : MonoBehaviour
             _foodManagersList.Add(_foodPartysList[i].GetComponent<FoodManager>());
         }
 
-        for(int i = 0; i < _foodPartysList.Count/2; i++)
+        // для каждой пары групп рандомно задаем цвет (правильный или неправильный)
+        for (int i = 0; i < _foodPartysList.Count/2; i++)
         {
             bool leftPartyTrueFlag = RandomBool();        
 
             if (leftPartyTrueFlag)
             {
-                _foodManagersList[i].SetColorContainer(_checkpointController._rightColorContainer);
-                _foodManagersList[i + _foodManagersList.Count / 2].SetColorContainer(_checkpointController._wrongColorContainer);
+                _foodManagersList[i].CreateFoodParty(_checkpointController._rightColorContainer);
+                _foodManagersList[i + _foodManagersList.Count / 2].CreateFoodParty(_checkpointController._wrongColorContainer);
             }
             else
             {
-                _foodManagersList[i].SetColorContainer(_checkpointController._wrongColorContainer);
-                _foodManagersList[i + _foodManagersList.Count / 2].SetColorContainer(_checkpointController._rightColorContainer);
+                _foodManagersList[i].CreateFoodParty(_checkpointController._wrongColorContainer);
+                _foodManagersList[i + _foodManagersList.Count / 2].CreateFoodParty(_checkpointController._rightColorContainer);
             }
         }
 
-        for(int i = 0; i < _partysRandomCount; i++)
+        // рандомим из общего списка группы, которые будут заспавнены и удаляем их из списка
+        for (int i = 0; i < _partysRandomCount; i++)
         {
             GameObject randomedParty = _foodPartysList[Random.Range(0, _foodPartysList.Count)];
             _foodPartysList.Remove(randomedParty);
         }
 
+        // скрываем все объекты, которые не были рандомно выбраны (оставшиеся в списке)
         for (int i = 0; i < _foodPartysList.Count; i++) 
         {
             //   Destroy(_foodPartysList[i]);
@@ -48,6 +51,7 @@ public class FoodContentContoller : MonoBehaviour
         }
     }
 
+    // метод получения рандомного булевого значения
     bool RandomBool()
     {
         return (Random.value > 0.5f);

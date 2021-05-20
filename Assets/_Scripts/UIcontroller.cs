@@ -24,22 +24,19 @@ public class UIcontroller : MonoBehaviour
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         tempCrystalValue = _gameManager._score;
     }
-    void Start()
-    {
-        
-    }
 
-    
     void Update()
     {
         CountersUpdater();
     }
 
+    // метод обновления UI 
     public void CountersUpdater()
     {
-        eatedFoodCounterText.text = "" + _gameManager._eatedFood;
+        eatedFoodCounterText.text = "" + _gameManager._eatedFood; // Обновления текста числа съеденный еды
 
-        if(tempCrystalValue < _gameManager._score)
+        // плавное увеличение и обновление текста очков
+        if (tempCrystalValue < _gameManager._score)
         {
             _updateValueTimer += Time.deltaTime;
 
@@ -54,7 +51,9 @@ public class UIcontroller : MonoBehaviour
 
         scoreText.text = "" + (int)tempCrystalValue;
 
-        if(_gameManager._curFeverPoints < _gameManager._maxFeverPoints)
+        // обновление и поведение панели с комбо для февера
+
+        if (_gameManager._curFeverPoints < _gameManager._maxFeverPoints)
         {
             _feverPanel.SetActive(true);
             int combopoint = _gameManager._maxFeverPoints - _gameManager._curFeverPoints;
@@ -63,10 +62,8 @@ public class UIcontroller : MonoBehaviour
             {
                 if (_gameManager._maxFeverPoints - _gameManager._curFeverPoints == i)
                     _pointImagesArray[i-1].SetActive(true);
-            }
-          
+            }        
         }
-
         else
         {
             _feverPanel.SetActive(false);

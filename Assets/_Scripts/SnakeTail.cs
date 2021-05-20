@@ -28,29 +28,32 @@ public class SnakeTail : MonoBehaviour
 
     void Update()
     {
-        float distance = ((Vector3)_snakeHeadTransform.position - _positionsList[0]).magnitude;
+        float distance = ((Vector3)_snakeHeadTransform.position - _positionsList[0]).magnitude; // дистанция от текузего положения головы до сохраненной позиции
 
-        if(distance > _snakePartSizeZ)
+        if (distance > _snakePartSizeZ) // если дистанция стала больше, чем размер самой части змеи (головы)
         {
-            Vector3 direction = ((Vector3)_snakeHeadTransform.position - _positionsList[0]).normalized;
+            Vector3 direction = ((Vector3)_snakeHeadTransform.position - _positionsList[0]).normalized; // определяем направление от старого положения головы до нового
 
-            _positionsList.Insert(0, _positionsList[0] + direction * _snakePartSizeZ);
-            _positionsList.RemoveAt(_positionsList.Count - 1);
+            _positionsList.Insert(0, _positionsList[0] + direction * _snakePartSizeZ); // добавляем новую позицию головы в начало списка позиций
+            _positionsList.RemoveAt(_positionsList.Count - 1); // удаляем последнюю позицию хвоста
 
-            distance -= _snakePartSizeZ;
+            distance -= _snakePartSizeZ; // чтобы исключить рывки при интерполяции позиции части тела
         }
 
         for(int i = 0; i < _snakePartsList.Count; i++)
         {
+            // плавно преобразуем позицию текущей части тела в позицию части тела, идущей на 1 позицию ближе к голове змеи
             _snakePartsList[i].position = Vector3.Lerp(_positionsList[i + 1], _positionsList[i], distance / _snakePartSizeZ);
 
-            if (i == 0)
-                _snakePartsList[i].LookAt(_snakeHeadEndPoint);
+            // каждая часть тела змеи смотрит на предыдущую
+            if (i == 0) // если часть первая в списке, она смотрит на конец объекта головы
+                _snakePartsList[i].LookAt(_snakeHeadEndPoint); 
             else
                 _snakePartsList[i].LookAt(_endPointsList[i-1]);
         }
     }
 
+    // метод добавления части змеи
     public void AddSnakePart()
     {
         Vector3 spawnPosition = new Vector3(_positionsList[_positionsList.Count - 1].x, _positionsList[_positionsList.Count - 1].y, _positionsList[_positionsList.Count - 1].z - _snakePartSizeZ);

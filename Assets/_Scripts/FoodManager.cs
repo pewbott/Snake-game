@@ -7,12 +7,7 @@ public class FoodManager : MonoBehaviour
     public List<GameObject> _unitsList;
     public ColorContainer _colorContainer; 
 
-    void Start()
-    {
-        
-    }
-
-    private void CreateFoodParty()
+    private void PartySettings()
     {
         int count = Random.Range(3, 5); // рандомно выбирается число юнитов в группе
         for(int i = 0; i < count; i++)
@@ -36,9 +31,10 @@ public class FoodManager : MonoBehaviour
         }
     }
 
-    public void SetColorContainer(ColorContainer colorCont)
+    // метод создания группы с заданным цветом
+    public void CreateFoodParty(ColorContainer colorCont)
     {
         _colorContainer = colorCont;
-        CreateFoodParty();
+        PartySettings();
     }
 }

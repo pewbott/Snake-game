@@ -31,14 +31,8 @@ public class SnakeController : MonoBehaviour
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
-
         if (!_feverMod)
         {
             _snakeTransform.Translate(Vector3.forward * _moveSpeed * Time.deltaTime, Space.World);
@@ -49,10 +43,10 @@ public class SnakeController : MonoBehaviour
             _snakeTransform.Translate(Vector3.forward * _moveSpeed * 3 * Time.deltaTime, Space.World);
             FeverMoveController();
         }
-
         FeverBehaviour();
     }
 
+    // метод движения для головы змеи
     private void SnakesHeadMoveController()
     {
         if (Input.touchCount > 0)
@@ -84,6 +78,7 @@ public class SnakeController : MonoBehaviour
         }
     }
 
+    // метод вижения змеи в режиме февер
     public void FeverMoveController()
     {
         Vector3 targetPosition = new Vector3(0, _snakeHeadTransform.position.y, _snakeHeadTransform.position.z);
@@ -99,12 +94,14 @@ public class SnakeController : MonoBehaviour
         }
     }
 
+    // метод задания цвета для змеи
     public void SetMaterial(ColorContainer _colorCont)
     {
         _curColorContainer = _colorCont;
         _snakeHeadTransform.GetComponent<MeshRenderer>().material = _curColorContainer.unitsMaterial;
     }
 
+    // метот, отслеживающий, нужно ли включить февер и отсчитывающий время его окончания
     public void FeverBehaviour()
     {
         if (_feverMod)
@@ -123,6 +120,7 @@ public class SnakeController : MonoBehaviour
         }    
     }
 
+    // метод отключения режима февер
     public void TurnOffFeverMod()
     {
         _gameManager._score = 0;
@@ -131,6 +129,7 @@ public class SnakeController : MonoBehaviour
         _gameManager._curFeverPoints = _gameManager._maxFeverPoints;
     }
 
+    // метод включения режима февер
     public void TurnOnFever()
     {
         _feverMod = true;

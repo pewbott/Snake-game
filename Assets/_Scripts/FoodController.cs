@@ -15,17 +15,7 @@ public class FoodController : MonoBehaviour
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
-    void Start()
-    {
-        
-    }
-
-
-    void Update()
-    {
-        
-    }
-
+    // метол задания цвета для еды
     public void SetColorContainer(ColorContainer colorCont)
     {     
         _colorContainer = colorCont;

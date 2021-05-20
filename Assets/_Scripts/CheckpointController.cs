@@ -10,8 +10,8 @@ public class CheckpointController : MonoBehaviour
 
     //  public GameObject _foodPartyPrefab;
 
-    public Transform _foodSpawnSpot;
-    public Transform _trapSpawnSpot
+    public Transform _foodSpawnSpot; // позиция спавна части уровня с едой
+    public Transform _trapSpawnSpot // позиция спавна части уровня с препятствиями и кристаллами
         ;
     public GameObject _foodContentPrefab;
     public GameObject[] _trapContentsPrefabArray;
@@ -29,22 +29,17 @@ public class CheckpointController : MonoBehaviour
         _snakeController = GameObject.Find("Snake").GetComponent<SnakeController>();
     }
 
-   
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "SnakePart" || other.tag == "SnakeHead")
+        // при контакте чекпоинта с объектами головы или другой части тела змеи, эта часть тела принимает материал цвета чекпоинта
+        if (other.tag == "SnakePart" || other.tag == "SnakeHead")
         {
             other.GetComponent<MeshRenderer>().material = _rightColorContainer.unitsMaterial;
             _snakeController._curColorContainer = _rightColorContainer;
         }
     }
 
-    
+    // создание части уровня с едой
     public void CreateFoodContent(Transform parent)
     {
         GameObject go = Instantiate(_foodContentPrefab, _foodSpawnSpot.position, Quaternion.identity, parent);
@@ -53,6 +48,7 @@ public class CheckpointController : MonoBehaviour
         foodContentController.CreateFoodContent();
     }
 
+    // создание части уровня с ловушками и кристаллами
     public void CreateTrapContent(Transform parent)
     {
         Instantiate(_trapContentsPrefabArray[Random.Range(0, _trapContentsPrefabArray.Length)], _trapSpawnSpot.position, Quaternion.identity, parent);

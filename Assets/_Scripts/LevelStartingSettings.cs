@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelStartingSettings : MonoBehaviour
 {
-    public ColorContainer[] _colorContainersArray;
+    public ColorContainer[] _colorContainersArray; // массив всех возможных цветов с материалами 
     public SnakeController _snakeController;
 
     public GameObject _checkPointPrefab;
@@ -17,30 +17,14 @@ public class LevelStartingSettings : MonoBehaviour
 
     private void Awake()
     {
-        
-
         for(int i = 0; i < _checkPointCounter; i++)
         {
-            AddCheckpoint(i);
-
-                
+            AddCheckpoint(i);             
         }
-
-        
+     
     }
 
-    void Start()
-    {
-        
-    }
-
-
-    void Update()
-    {
-        
-    }
-
-
+    // метод создания чекпоинтов
     private void AddCheckpoint(int checkpointNumber)
     {
         Vector3 pos = new Vector3(0, 0, checkpointNumber * _distanceBetweenCheckpoints);
@@ -63,29 +47,32 @@ public class LevelStartingSettings : MonoBehaviour
         checkpointController.CreateTrapContent(checkpoint.transform);
     }
 
+    // метод для рандомного задания цветов для чекпоинтов (правильных и неправильных)
+    // каждый чекпоинт будет спавнить группы еды с правильным и неправильным цветом
     public ColorContainer[] GetRandomColorContainers()
     {
-        for (int i = 0; i < _colorContainersArray.Length; i++)
+        for (int i = 0; i < _colorContainersArray.Length; i++) // заполняем массив доступных цветов
         {
-            _availableColorContainersList.Add(_colorContainersArray[i]);
+            _availableColorContainersList.Add(_colorContainersArray[i]); 
         }
 
-        if (_lastRandomedRightColorContainer == null && _lastRandomedWrongColorContainer == null)
+        if (_lastRandomedRightColorContainer == null && _lastRandomedWrongColorContainer == null) // если это первая итерация (начало уровня)
         {
-            _lastRandomedRightColorContainer = _availableColorContainersList[Random.Range(0, _availableColorContainersList.Count)];
-            _availableColorContainersList.Remove(_lastRandomedRightColorContainer);
+            _lastRandomedRightColorContainer = _availableColorContainersList[Random.Range(0, _availableColorContainersList.Count)]; // рандомим правильный цвет
+            _availableColorContainersList.Remove(_lastRandomedRightColorContainer); // удаляем цвет из списла доступных цветов
 
-            _lastRandomedWrongColorContainer = _availableColorContainersList[Random.Range(0, _availableColorContainersList.Count)];
-            _availableColorContainersList.Remove(_lastRandomedWrongColorContainer);
+            _lastRandomedWrongColorContainer = _availableColorContainersList[Random.Range(0, _availableColorContainersList.Count)]; // рандомим неправильный цвет
+            _availableColorContainersList.Remove(_lastRandomedWrongColorContainer); // удаляем цвет из списла доступных цветов
         }
-        else
+        else // если это не первая итерация
         {          
-            ColorContainer tempCont = _lastRandomedRightColorContainer;
-            _availableColorContainersList.Remove(_lastRandomedRightColorContainer);
-            _lastRandomedRightColorContainer = _availableColorContainersList[Random.Range(0, _availableColorContainersList.Count)];
-            _availableColorContainersList.Remove(_lastRandomedRightColorContainer);
-            _availableColorContainersList.Add(tempCont);
+            ColorContainer tempCont = _lastRandomedRightColorContainer; // временная переменная, хранящая последний случайно выбранный правильный цвет
+            _availableColorContainersList.Remove(_lastRandomedRightColorContainer); // удаляем цвет из списка, чтобы не было двух подряд одинаковых правильных цветов у чекпоинтов
+            _lastRandomedRightColorContainer = _availableColorContainersList[Random.Range(0, _availableColorContainersList.Count)]; // рандомим цвет для нового чекпоинта
+            _availableColorContainersList.Remove(_lastRandomedRightColorContainer); // удаляем новый рандомный цвет из списка доступных цветов
+            _availableColorContainersList.Add(tempCont); // возвращаем в список доступных цветов старый (прошлый) выбранный цвет
 
+            // такая же логика для неправильногго цвета
             tempCont = _lastRandomedWrongColorContainer;
             _availableColorContainersList.Remove(_lastRandomedWrongColorContainer);
             _lastRandomedWrongColorContainer = _availableColorContainersList[Random.Range(0, _availableColorContainersList.Count)];
